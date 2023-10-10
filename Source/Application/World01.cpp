@@ -34,9 +34,36 @@ namespace nc
 
         // render
         glPushMatrix();
-        glTranslatef(m_position.x, m_position.y, 0);
+        glTranslatef(m_position.x + 0.5, m_position.y, 0);
 
         glRotatef(m_angle, 0, 0, 1);
+
+        glScalef((sin(m_time * 5) + 1) * 0.5f, (sin(m_time * 5) + 1) * 0.5f, (sin(m_time * 5) + 1) * 0.5f);
+
+        glBegin(GL_QUAD_STRIP);
+
+        glColor3f(1, 0, 0);
+        glVertex2f(-0.5f, 0.5f);
+
+        glColor3f(1, 0, 0);
+        glVertex2f(0.5f, 0.5f);
+
+        glColor3f(0, 1, 1);
+        glVertex2f(-0.5f, -0.5f);
+
+        glColor3f(0, 1, 1);
+        glVertex2f(0.5f, -0.5f);
+
+        glEnd();
+
+        glPopMatrix();
+        
+        //---
+
+        glPushMatrix();
+        glTranslatef(m_position.x - 0.5, m_position.y, 0);
+
+        glRotatef(m_angle, 1, 0, 0);
 
         glScalef((sin(m_time * 5) + 1) * 0.5f, (sin(m_time * 5) + 1) * 0.5f, (sin(m_time * 5) + 1) * 0.5f);
 
