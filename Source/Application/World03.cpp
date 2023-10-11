@@ -81,6 +81,9 @@ namespace nc
 
         m_time += dt;
 
+        m_program->SetUniform("offset", glm::vec2{ m_time, 0 });
+        m_program->SetUniform("tiling", glm::vec2{ 2, 2 });
+
         // model matrix
         //glm::mat4 position = glm::translate(glm::mat4{ 1 }, m_position);
         //glm::mat4 rotation = glm::rotate(glm::mat4{ 1 }, m_time, glm::vec3{0, 0, 1});
