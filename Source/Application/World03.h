@@ -19,6 +19,8 @@ namespace nc
 
 		Transform m_transform;
 
+		glm::vec2 uvOffset;
+
 		GLuint m_vao;
 		res_t<Program> m_program;
 		res_t<Texture> m_texture;

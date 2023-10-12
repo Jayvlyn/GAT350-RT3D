@@ -68,6 +68,11 @@ namespace nc
         ImGui::DragFloat3("Scale", &m_transform.scale[0]);
         ImGui::End();
 
+        ImGui::Begin("UV");
+        ImGui::DragFloat2("Offset", &uvOffset[0], dt);
+        ImGui::End();
+
+
         //m_transform.rotation.z += 180 * dt;
 
 
@@ -79,9 +84,11 @@ namespace nc
         m_transform.position.z += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_SPACE) ? dt * m_speed : 0;
         m_transform.position.z += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_BACKSPACE) ? -dt * m_speed : 0;
 
+        uvOffset.x += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_L) ? -dt * m_speed : 0;
+
         m_time += dt;
 
-        m_program->SetUniform("offset", glm::vec2{ m_time, 0 });
+        m_program->SetUniform("offset", uvOffset);
         m_program->SetUniform("tiling", glm::vec2{ 2, 2 });
 
         // model matrix
