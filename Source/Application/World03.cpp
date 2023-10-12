@@ -70,6 +70,7 @@ namespace nc
 
         ImGui::Begin("UV");
         ImGui::DragFloat2("Offset", &uvOffset[0], dt);
+        ImGui::DragFloat2("Tiling", &uvTiling[0], dt);
         ImGui::End();
 
 
@@ -89,7 +90,7 @@ namespace nc
         m_time += dt;
 
         m_program->SetUniform("offset", uvOffset);
-        m_program->SetUniform("tiling", glm::vec2{ 2, 2 });
+        m_program->SetUniform("tiling", uvTiling);
 
         // model matrix
         //glm::mat4 position = glm::translate(glm::mat4{ 1 }, m_position);

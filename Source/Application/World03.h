@@ -20,6 +20,7 @@ namespace nc
 		Transform m_transform;
 
 		glm::vec2 uvOffset;
+		glm::vec2 uvTiling = { 1, 1 };
 
 		GLuint m_vao;
 		res_t<Program> m_program;
