@@ -19,14 +19,25 @@ uniform struct Material
 	vec2 tiling;
 } material;
 
-vec3 ambientLight = vec3(0.2, 0.2, 0.2);
-vec3 diffuseLight = vec3(1, 1, 1);
-vec3 lightPosition = vec3(0, 8, 0);
+uniform struct Light
+{
+	vec3 lightPosition;
+	vec3 diffuseLight;
+	vec3 ambientLight;
+} light;
+
+vec3 lightPosition;
+vec3 diffuseLight;
+vec3 ambientLight;
 
 
 
 void main()
 {
+	ambientLight = light.ambientLight;
+	diffuseLight = light.diffuseLight;
+	lightPosition = light.lightPosition;
+
 	otexcoord = (vtexcoord * material.tiling) + material.offset;
 	onormal = vnormal;
 

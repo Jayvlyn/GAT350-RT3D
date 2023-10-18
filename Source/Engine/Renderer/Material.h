@@ -25,6 +25,10 @@ namespace nc
 		glm::vec2 tiling{ 1 };
 		glm::vec2 offset{ 0 };
 
+		glm::vec3 lightPosition{ 0, 8, 0 };
+		glm::vec3 lightAmbientColor{ 0.2, 0.2, 0.2 };
+		glm::vec3 lightDiffuseColor{ 1, 1, 1 };
+
 	private:
 		res_t<Program> m_program;
 		std::vector<res_t<Texture>> m_textures;

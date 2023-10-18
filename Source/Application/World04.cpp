@@ -56,6 +56,11 @@ namespace nc
         glm::mat4 projection = glm::perspective(glm::radians(70.0f), 800.0f / 600.0f, 0.01f, 100.0f);
         material->GetProgram()->SetUniform("projection", projection);
 
+        //material->GetProgram()->SetUniform("light.position", lightPosition);
+        //material->GetProgram()->SetUniform("light.color", lightColor);
+
+
+
         ENGINE.GetSystem<Gui>()->EndFrame();
     }
 
@@ -64,7 +69,7 @@ namespace nc
         // pre-render
         renderer.BeginFrame();
         // render
-        m_model->Draw(GL_TRIANGLES);
+        m_model->Draw();
         ENGINE.GetSystem<Gui>()->Draw();
         // post-render
         renderer.EndFrame();
