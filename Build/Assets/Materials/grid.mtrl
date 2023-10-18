@@ -1,6 +1,6 @@
 {
   "program":"shaders/lit_texture.prog",
-  "textures": [ "textures/squirrel_diffuse.png" ],
+  "textures": [ "textures/wood_crate_diffuse.png" ],
   "color":[
       1,
       1,
