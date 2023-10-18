@@ -31,12 +31,19 @@ namespace nc
 			m_textures.push_back(GET_RESOURCE(Texture, texture));
 		}
 
+		READ_DATA(document, color);
+		READ_DATA(document, tiling);
+		READ_DATA(document, offset);
+
 		return true;
 	}
 
 	void Material::Bind()
 	{
 		m_program->Use();
+		m_program->SetUniform("color", color);
+		m_program->SetUniform("tiling", tiling);
+		m_program->SetUniform("offset", offset);
 
 		for (size_t i = 0; i < m_textures.size(); i++)
 		{
