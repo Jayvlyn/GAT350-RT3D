@@ -10,7 +10,7 @@ namespace nc
 {
     bool World03::Initialize()
     {
-
+        m_material = GET_RESOURCE(Material, "materials/quad.mtrl");
         m_program = GET_RESOURCE(Program, "shaders/unlit_texture.prog");
         m_program->Use();
 
@@ -26,31 +26,11 @@ namespace nc
             -0.8f, 0.8f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f
         };
 
-        GLuint vbo;
-        glGenBuffers(1, &vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-
-        glGenVertexArrays(1, &m_vao);
-        glBindVertexArray(m_vao);
-
-        glBindVertexBuffer(0, vbo, 0, sizeof(GLfloat) * 8);
-        // Position
-        glEnableVertexAttribArray(0);
-        glVertexAttribFormat(0, 3, GL_FLOAT, GL_FALSE, 0);
-        glVertexAttribBinding(0, 0);
-
-        // Color
-        glEnableVertexAttribArray(1);
-        glVertexAttribFormat(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat));
-        glVertexAttribBinding(1, 0);
-
-        // Texcoord
-        glEnableVertexAttribArray(2);
-        glVertexAttribFormat(2, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat));
-        glVertexAttribBinding(2, 0);
-
-        //m_position.z = -10.0f;
+        m_vertexBuffer = std::make_shared<VertexBuffer>();
+        m_vertexBuffer->CreateVertexBuffer(sizeof(vertexData), 4, vertexData);
+        m_vertexBuffer->SetAttribute(0, 3, 8 * sizeof(GLfloat), 0);                  // position 
+        m_vertexBuffer->SetAttribute(1, 3, 8 * sizeof(GLfloat), 3 * sizeof(float));  // color 
+        m_vertexBuffer->SetAttribute(2, 2, 8 * sizeof(GLfloat), 6 * sizeof(float));  // texcoord
 
         return true;
     }
@@ -68,10 +48,10 @@ namespace nc
         ImGui::DragFloat3("Scale", &m_transform.scale[0]);
         ImGui::End();
 
-        ImGui::Begin("UV");
-        ImGui::DragFloat2("Offset", &uvOffset[0], dt);
-        ImGui::DragFloat2("Tiling", &uvTiling[0], dt);
-        ImGui::End();
+        //ImGui::Begin("UV");
+        //ImGui::DragFloat2("Offset", &uvOffset[0], dt);
+        //ImGui::DragFloat2("Tiling", &uvTiling[0], dt);
+        //ImGui::End();
 
 
         //m_transform.rotation.z += 180 * dt;
@@ -89,22 +69,23 @@ namespace nc
 
         m_time += dt;
 
-        m_program->SetUniform("offset", uvOffset);
-        m_program->SetUniform("tiling", uvTiling);
+       
+        m_material->Bind();
+        m_material->ProcessGui();
+        //m_program->SetUniform("offset", uvOffset);
+        //m_program->SetUniform("tiling", uvTiling);
+
 
         // model matrix
-        //glm::mat4 position = glm::translate(glm::mat4{ 1 }, m_position);
-        //glm::mat4 rotation = glm::rotate(glm::mat4{ 1 }, m_time, glm::vec3{0, 0, 1});
-        //glm::mat4 model = position * rotation;
-        m_program->SetUniform("model", m_transform.GetMatrix());
+        m_material->GetProgram()->SetUniform("model", m_transform.GetMatrix());
 
         // view matrix
         glm::mat4 view = glm::lookAt(glm::vec3{ 0, 0, 5 }, glm::vec3{ 0,0,0 }, glm::vec3{ 0, 1, 0 });
-        m_program->SetUniform("view", view);
+        m_material->GetProgram()->SetUniform("view", view);
 
         // projection matrix
         glm::mat4 projection = glm::perspective(glm::radians(70.0f), 800.0f / 600.0f, 0.01f, 100.0f);
-        m_program->SetUniform("projection", projection);
+        m_material->GetProgram()->SetUniform("projection", projection);
 
         ENGINE.GetSystem<Gui>()->EndFrame();
     }
@@ -113,13 +94,9 @@ namespace nc
     {
         // pre-render
         renderer.BeginFrame();
-
         // render
-        glBindVertexArray(m_vao);
-        glDrawArrays(GL_QUADS, 0, 4);
-
+        m_vertexBuffer->Draw(GL_QUADS);
         ENGINE.GetSystem<Gui>()->Draw();
-
         // post-render
         renderer.EndFrame();
     }
