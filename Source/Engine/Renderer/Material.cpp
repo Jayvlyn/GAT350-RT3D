@@ -70,8 +70,8 @@ namespace nc
 
 		ImGui::Begin("Light");
 		ImGui::DragFloat3("Position", glm::value_ptr(lightPosition));
-		ImGui::DragFloat3("Ambient Color", glm::value_ptr(lightAmbientColor));
-		ImGui::DragFloat3("Diffuse Color", glm::value_ptr(lightDiffuseColor));
+		ImGui::DragFloat3("Ambient Color", glm::value_ptr(lightAmbientColor), 0.1f);
+		ImGui::DragFloat3("Diffuse Color", glm::value_ptr(lightDiffuseColor), 0.1f);
 		ImGui::End();
 	}
 }

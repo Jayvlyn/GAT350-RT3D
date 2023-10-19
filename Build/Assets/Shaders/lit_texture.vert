@@ -26,28 +26,19 @@ uniform struct Light
 	vec3 ambientLight;
 } light;
 
-vec3 lightPosition;
-vec3 diffuseLight;
-vec3 ambientLight;
-
-
 
 void main()
 {
-	ambientLight = light.ambientLight;
-	diffuseLight = light.diffuseLight;
-	lightPosition = light.lightPosition;
-
 	otexcoord = (vtexcoord * material.tiling) + material.offset;
 	onormal = vnormal;
 
 	mat4 modelView = view * model;
 	vec4 position = modelView * vec4(vposition, 1);
 	vec3 normal = normalize(mat3(modelView) * vnormal);
-	vec3 lightDir = normalize(lightPosition - position.xyz);
+	vec3 lightDir = normalize(light.lightPosition - position.xyz);
 	float intensity = max(dot(lightDir, normal), 0);
 
-	vec3 lightColor = (diffuseLight * intensity) + ambientLight;
+	vec3 lightColor = (light.diffuseLight * intensity) + light.ambientLight;
 	ocolor = material.color * vec4(lightColor, 1);
 
 	mat4 mvp = projection * view * model;
