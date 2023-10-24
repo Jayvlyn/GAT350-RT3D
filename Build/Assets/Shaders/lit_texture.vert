@@ -12,11 +12,14 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-uniform struct Adjust
+uniform struct Material
 {
+    vec3 diffuse;
+    vec3 specular;
+    float shininess;
     vec2 offset;
     vec2 tiling;
-} adjust;
+} material;
 
 void main()
 {
@@ -25,7 +28,7 @@ void main()
     // convert position and normal to world-view space
     oposition = vec3(modelView * vec4(vposition, 1));
     onormal = normalize(mat3(modelView) * vnormal);
-    otexcoord = (vtexcoord * adjust.tiling) + adjust.offset;
+    otexcoord = (vtexcoord * material.tiling) + material.offset;
 
     mat4 mvp = projection * view * model;
     gl_Position = mvp * vec4(vposition, 1.0);

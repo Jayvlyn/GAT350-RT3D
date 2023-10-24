@@ -12,7 +12,15 @@ namespace nc
         auto material = GET_RESOURCE(Material, "materials/grid.mtrl");
         m_model = std::make_shared<Model>();
         m_model->SetMaterial(material);
-        m_model->Load("models/sphere.obj", glm::vec3{ 0 }, glm::vec3{ -90, 0, 0 });
+        m_model->Load("models/plane.obj");
+        //m_model->Load("models/sphere.obj");
+        //m_model->Load("models/buddha.obj", glm::vec3{ 0 }, glm::vec3{ -90, 0, 0 });
+
+        m_light.type = light_t::eType::Point;
+        m_light.position = glm::vec3{ 0, 5, 0 };
+        m_light.direction = glm::vec3{ 0, -1, 0 };
+        m_light.color = glm::vec3(1);
+        m_light.cutoff = 30.0f;
 
         return true;
     }
@@ -30,6 +38,19 @@ namespace nc
         ImGui::DragFloat3("Scale", &m_transform.scale[0], 0.1f);
         ImGui::End();
 
+        ImGui::Begin("Light");
+        const char* types[] = { "Point", "Directional", "Spot" };
+        ImGui::Combo("Type", (int*)(&m_light.type), types, 3);
+
+        if(m_light.type != light_t::Directional) ImGui::DragFloat3("Position", glm::value_ptr(m_light.position), 0.1f);
+        if(m_light.type != light_t::Point) ImGui::DragFloat3("Direction", glm::value_ptr(m_light.direction), 0.1f);
+        if(m_light.type == light_t::Spot) ImGui::DragFloat("Cutoff", &m_light.cutoff, 1, 0, 90);
+
+        ImGui::ColorEdit3("Color", glm::value_ptr(m_light.color));
+
+        ImGui::ColorEdit3("Ambient color", glm::value_ptr(m_ambientColor));
+        ImGui::End();
+
         m_transform.position.x += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_A) ? -dt * m_speed : 0;
         m_transform.position.x += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_D) ? dt * m_speed : 0;
         m_transform.position.y += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_W) ? dt * m_speed : 0;
@@ -44,6 +65,13 @@ namespace nc
         material->ProcessGui();
         material->Bind();
         
+        material->GetProgram()->SetUniform("light.type", m_light.type);
+        material->GetProgram()->SetUniform("light.lightPosition", m_light.position);
+        material->GetProgram()->SetUniform("light.direction", m_light.direction);
+        material->GetProgram()->SetUniform("light.color", m_light.color);
+        material->GetProgram()->SetUniform("light.cutoff", glm::radians(m_light.cutoff));
+
+        material->GetProgram()->SetUniform("ambientLight", m_ambientColor);
 
         // model matrix
         material->GetProgram()->SetUniform("model", m_transform.GetMatrix());
@@ -55,11 +83,6 @@ namespace nc
         // projection matrix
         glm::mat4 projection = glm::perspective(glm::radians(70.0f), ENGINE.GetSystem<Renderer>()->GetWidth() / (float) ENGINE.GetSystem<Renderer>()->GetHeight(), 0.01f, 100.0f);
         material->GetProgram()->SetUniform("projection", projection);
-
-        //material->GetProgram()->SetUniform("light.position", lightPosition);
-        //material->GetProgram()->SetUniform("light.color", lightColor);
-
-
 
         ENGINE.GetSystem<Gui>()->EndFrame();
     }
