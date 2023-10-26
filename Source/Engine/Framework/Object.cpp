@@ -6,4 +6,7 @@ namespace nc
 	{
 		READ_DATA(value, name);
 	}
+	void Object::ProcessGui()
+	{
+	}
 }
