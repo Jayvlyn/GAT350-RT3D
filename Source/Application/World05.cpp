@@ -3,6 +3,7 @@
 #include "Input/InputSystem.h"
 #include <glm/glm/gtc/type_ptr.hpp>
 #include <glm/glm/gtx/color_space.hpp>
+#include "Framework/Components/CameraComponent.h"
 
 #define INTERLEAVE
 
@@ -38,6 +39,8 @@ namespace nc
             m_scene->Add(std::move(actor));
         }
         */
+
+        // LIGHT 1
         {
             auto actor = CREATE_CLASS(Actor);
             actor->name = "light1";
@@ -50,6 +53,20 @@ namespace nc
             lightComponent->innerAngle = 10.0f;
             lightComponent->outerAngle = 30.0f;
             actor->AddComponent(std::move(lightComponent));
+            m_scene->Add(std::move(actor));
+        }
+
+        // CAMERA
+        {
+            auto actor = CREATE_CLASS(Actor);
+            actor->name = "camera1";
+            actor->transform.position = glm::vec3{ 0, 0, 18 };
+            actor->transform.rotation = glm::vec3{ 0, 180, 0 };
+
+            auto cameraComponent = CREATE_CLASS(CameraComponent);
+            cameraComponent->SetPerspective(70.0f, (float)ENGINE.GetSystem<Renderer>()->GetWidth() / (float)ENGINE.GetSystem<Renderer>()->GetHeight(), 0.1f, 100.0f);
+            actor->AddComponent(std::move(cameraComponent));
+
             m_scene->Add(std::move(actor));
         }
 
@@ -84,14 +101,6 @@ namespace nc
         material->Bind();
         
         material->GetProgram()->SetUniform("ambientLight", m_ambientColor);
-
-        // view matrix
-        glm::mat4 view = glm::lookAt(glm::vec3{ 0, 0, 5 }, glm::vec3{ 0,0,0 }, glm::vec3{ 0, 1, 0 });
-        material->GetProgram()->SetUniform("view", view);
-
-        // projection matrix
-        glm::mat4 projection = glm::perspective(glm::radians(70.0f), ENGINE.GetSystem<Renderer>()->GetWidth() / (float) ENGINE.GetSystem<Renderer>()->GetHeight(), 0.01f, 100.0f);
-        material->GetProgram()->SetUniform("projection", projection);
 
         ENGINE.GetSystem<Gui>()->EndFrame();
     }
