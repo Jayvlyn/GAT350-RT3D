@@ -1,0 +1,12 @@
+{
+  "program": "shaders/skybox.prog",
+  "cubemap": "yoko_cubemap",
+  "cubemaps": [
+    "textures/yoko_cubemap/posx.jpg",
+    "textures/yoko_cubemap/negx.jpg",
+    "textures/yoko_cubemap/posy.jpg",
+    "textures/yoko_cubemap/negy.jpg",
+    "textures/yoko_cubemap/posz.jpg",
+    "textures/yoko_cubemap/negz.jpg"
+  ]
+}

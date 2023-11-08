@@ -26,9 +26,9 @@ namespace nc
 
 	bool Texture::Load(const std::string& filename, Renderer& renderer)
 	{
-		stbi_set_flip_vertically_on_load(true);
-
 		int channels = 0;
+
+		stbi_set_flip_vertically_on_load(true);
 		unsigned char* data = stbi_load(filename.c_str(), &m_size.x, &m_size.y, &channels, 0);
 		if (!data)
 		{

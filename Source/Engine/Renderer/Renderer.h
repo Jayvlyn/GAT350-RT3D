@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Model.h"
 #include "Texture.h"
+#include "Cubemap.h"
 #include "Shader.h"
 #include "Program.h"
 #include "Gui.h"
@@ -35,6 +36,9 @@ namespace nc
 		void DrawLine(float x1, float y1, float x2, float y2);
 		void DrawPoint(int x, int y);
 		void DrawPoint(float x, float y);
+
+		void SetViewport(int width, int height);
+		void ResetViewport();
 
 		int GetWidth() const { return m_width; }
 		int GetHeight() const { return m_height; }

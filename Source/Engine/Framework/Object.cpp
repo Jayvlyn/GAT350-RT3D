@@ -5,8 +5,6 @@ namespace nc
 	void Object::Read(const rapidjson::Value& value)
 	{
 		READ_DATA(value, name);
-	}
-	void Object::ProcessGui()
-	{
+		READ_DATA(value, active);
 	}
 }

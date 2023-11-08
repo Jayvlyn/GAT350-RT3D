@@ -11,6 +11,8 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	auto su = make_unique<nc::StringUtils>();
+
 	INFO_LOG("Initialize Engine...")
 
 	//nc::MemoryTracker::Initialize();
