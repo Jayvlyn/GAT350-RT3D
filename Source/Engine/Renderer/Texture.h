@@ -14,14 +14,18 @@ namespace nc
 		~Texture();
 
 		virtual bool Create(std::string filename, ...) override;
+		bool CreateTexture(int width, int height);
+		bool CreateDepthTexture(int width, int height);
 
 		bool Load(const std::string& filename, class Renderer& renderer);
+
 		const glm::ivec2& GetSize() const { return m_size; }
 
 		void SetActive(GLuint unit) { glActiveTexture(unit); }
 		void Bind() { glBindTexture(m_target, m_texture); }
 
 		friend class Renderer;
+		friend class Framebuffer;
 
 	public:
 		GLuint m_texture = 0;

@@ -110,9 +110,6 @@ namespace nc
         
         auto actor = m_scene->GetActorByName<Actor>("actor1");
         
-        m_time += dt;
-
-        
         auto material = actor->GetComponent<ModelComponent>()->material;
 
         material->ProcessGui();

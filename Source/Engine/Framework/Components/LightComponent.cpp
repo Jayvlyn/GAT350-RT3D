@@ -46,6 +46,19 @@ namespace nc
 
 	void LightComponent::Read(const nc::json_t& value)
 	{
-		// read json file
+		StringUtils* su = new StringUtils();
+
+		// get light type
+		std::string lightTypeName;
+		READ_NAME_DATA(value, "lightType", lightTypeName);
+		if (su->isEqualIgnoreCase(lightTypeName, "point")) type = eType::Point;
+		else if (su->isEqualIgnoreCase(lightTypeName, "directional")) type = eType::Directional;
+		else if (su->isEqualIgnoreCase(lightTypeName, "spot")) type = eType::Spot;
+
+		READ_DATA(value, color);
+		READ_DATA(value, intensity);
+		READ_DATA(value, range);
+		READ_DATA(value, innerAngle);
+		READ_DATA(value, outerAngle);
 	}
 }
