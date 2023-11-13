@@ -36,6 +36,7 @@ namespace nc
 		glTexImage2D(m_target, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
 		// set texture parameters
+		// change last parameter to GL_NEAREST instead of GL_LINEAR for pixelated rendering
 		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

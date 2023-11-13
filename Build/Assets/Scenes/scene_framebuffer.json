@@ -24,20 +24,15 @@
 		},
 		{
 			"type": "Actor",
-			"name": "cube",
+			"name": "postprocess",
 			"persistent": true,
 			"active": true,
 			"prototype": false,
-			"transform": {
-				"position": [ 1, 0, 1 ],
-				"scale": [ 1, 1, 1 ],
-				"rotation": [ 0, 0, 0 ]
-			},
 			"components": [
 				{
 					"type": "ModelComponent",
-					"modelName": "models/cube.obj",
-					"materialName": "materials/framebuffer.mtrl"
+					"modelName": "models/quad.obj",
+					"materialName": "materials/postprocess.mtrl"
 				}
 			]
 		},
