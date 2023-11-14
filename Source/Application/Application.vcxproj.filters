@@ -221,5 +221,11 @@
     <None Include="..\..\Build\Assets\Materials\postprocess.mtrl">
       <Filter>Materials</Filter>
     </None>
+    <None Include="..\..\Build\Assets\Scenes\scene_shadow.json">
+      <Filter>Scenes</Filter>
+    </None>
+    <None Include="..\..\Build\Assets\Fantasy\fantasy.mtrl">
+      <Filter>Materials</Filter>
+    </None>
   </ItemGroup>
 </Project>

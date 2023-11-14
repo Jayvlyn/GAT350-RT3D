@@ -168,6 +168,7 @@
     <ClInclude Include="World07.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Build\Assets\Fantasy\fantasy.mtrl" />
     <None Include="..\..\Build\Assets\Materials\framebuffer.mtrl" />
     <None Include="..\..\Build\Assets\Materials\grid.mtrl" />
     <None Include="..\..\Build\Assets\Materials\multi.mtrl" />
@@ -182,6 +183,7 @@
     <None Include="..\..\Build\Assets\Materials\tree.mtrl" />
     <None Include="..\..\Build\Assets\Scenes\scene.json" />
     <None Include="..\..\Build\Assets\Scenes\scene_framebuffer.json" />
+    <None Include="..\..\Build\Assets\Scenes\scene_shadow.json" />
     <None Include="..\..\Build\Assets\Shaders\cubemap.frag" />
     <None Include="..\..\Build\Assets\Shaders\lit_phong.frag" />
     <None Include="..\..\Build\Assets\Shaders\lit_phong.prog" />

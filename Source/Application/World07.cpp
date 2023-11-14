@@ -10,7 +10,7 @@ namespace nc
     bool World07::Initialize()
     {
         m_scene = std::make_unique<Scene>();
-        m_scene->Load("scenes/scene_framebuffer.json");
+        m_scene->Load("scenes/scene_shadow.json");
         m_scene->Initialize();
 
         auto texture = std::make_shared<Texture>();
@@ -43,6 +43,8 @@ namespace nc
         m_scene->Update(dt);
         m_scene->ProcessGui();
 
+#pragma region PP
+
         // set postprocess gui
         ImGui::Begin("Post-Process");
         ImGui::SliderFloat("Blend", &m_blend, 0, 1);
@@ -66,7 +68,7 @@ namespace nc
         }
         if (effect)
         {
-
+            ImGui::ColorEdit3("Tint", &m_colorTint[0]);
         }
         // GRAIN
         effect = m_params & GRAIN_MASK;
@@ -82,7 +84,8 @@ namespace nc
         }
         if (effect)
         {
-
+            ImGui::DragFloat("Scanline Intensity", &scanlineIntensity, 0.01, 0, 1);
+            ImGui::DragFloat("Scanline Spacing", &scanlineSpacing, 0.1, 0, 100);
         }
         // BLOOM
         effect = m_params & BLOOM_MASK;
@@ -106,8 +109,15 @@ namespace nc
             program->Use();
             program->SetUniform("blend", m_blend);
             program->SetUniform("params", m_params);
+            program->SetUniform("colorTint", m_colorTint);
+            program->SetUniform("time", m_time);
+            program->SetUniform("scanlineSpacing", scanlineSpacing);
+            program->SetUniform("scanlineIntensity", scanlineIntensity);
+            program->SetUniform("kernelOffset", kernelOffset);
         }
         
+#pragma endregion
+
         ENGINE.GetSystem<Gui>()->EndFrame();
     }
 
@@ -120,7 +130,7 @@ namespace nc
         renderer.SetViewport(framebuffer->GetSize().x, framebuffer->GetSize().y);
         framebuffer->Bind();
 
-        renderer.BeginFrame({0, 0, 1});
+        renderer.BeginFrame({0, 0, 0});
         m_scene->Draw(renderer);
 
         framebuffer->Unbind();

@@ -30,6 +30,10 @@ namespace nc
 		float m_refraction = 1;
 
 		uint32_t m_params{ 0 };
+		glm::vec3 m_colorTint{ 0 };
+		float scanlineSpacing{ 1 };
+		float scanlineIntensity{ 1 };
+		float kernelOffset = 300;
 
 		float m_blend = 1;
 
