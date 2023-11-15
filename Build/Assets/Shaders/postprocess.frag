@@ -5,8 +5,7 @@
 #define COLORTINT_MASK  (1 << 2)
 #define GRAIN_MASK		(1 << 3)
 #define SCANLINE_MASK	(1 << 4)
-#define BLOOM_MASK		(1 << 5)
-#define KERNEL_MASK		(1 << 6)
+#define KERNEL_MASK		(1 << 5)
 
 in layout(location = 0) vec2 ftexcoord;
 out layout(location = 0) vec4 ocolor;
@@ -50,7 +49,7 @@ vec4 scanline(in vec4 color) {
 
 	float scanline = mod(yPos, scanlineSpacing) < (scanlineSpacing / 2.0) ? scanlineIntensity : 0.0;
 
-		return vec4(mix(color.rgb, vec3(0.0), scanline), color.a);
+	return vec4(mix(color.rgb, vec3(0.0), scanline), color.a);
 }
 
 vec4 kernel(in vec4 color) {

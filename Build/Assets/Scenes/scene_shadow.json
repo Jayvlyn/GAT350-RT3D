@@ -56,36 +56,28 @@
 		},
 		{
 			"type": "Actor",
-			"name": "postprocess",
-			"persistent": true,
-			"active": true,
-			"prototype": false,
-			"components": [
-				{
-					"type": "ModelComponent",
-					"modelName": "models/quad.obj",
-					"materialName": "materials/postprocess.mtrl"
-				}
-			]
-		},
-		{
-			"type": "Actor",
 			"name": "light",
 			"persistent": true,
 			"active": true,
 			"prototype": false,
 			"transform": {
-				"position": [ 1, 1, 1 ],
-				"scale": [ 1, 1, 1 ],
-				"rotation": [ 0, 0, 0 ]
+				"position": [ 0, 3, 0 ],
+				"rotation": [ 60, 30, 0 ],
+				"scale": [ 0.1, 0.1, 0.1 ]
 			},
 			"components": [
 				{
 					"type": "LightComponent",
-					"lightType": "point",
+					"lightType": "directional",
 					"color": [ 1, 1, 1 ],
 					"intensity": 1,
-					"range": 200
+					"range": 200,
+					"castShadow": true
+				},
+				{
+					"type": "ModelComponent",
+					"modelName": "models/quad.obj",
+					"materialName": "materials/ui_light.mtrl"
 				}
 			]
 		},

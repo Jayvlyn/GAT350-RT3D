@@ -14,17 +14,23 @@ namespace nc
         m_scene->Initialize();
 
         auto texture = std::make_shared<Texture>();
-        texture->CreateTexture(2048, 2048);
-        ADD_RESOURCE("fb_texture", texture);
+        texture->CreateDepthTexture(1024, 1024);
+        ADD_RESOURCE("depth_texture", texture);
 
         auto framebuffer = std::make_shared<Framebuffer>();
-        framebuffer->CreateFramebuffer(texture);
-        ADD_RESOURCE("fb", framebuffer);
+        framebuffer->CreateDepthBuffer(texture);
+        ADD_RESOURCE("depth_buffer", framebuffer);
 
-        auto material = GET_RESOURCE(Material, "materials/postprocess.mtrl");
+        auto material = GET_RESOURCE(Material, "materials/sprite.mtrl");
         if (material)
         {
             material->albedoTexture = texture;
+        }
+
+        auto materials = GET_RESOURCES(Material);
+        for (auto material : materials)
+        {
+            material->depthTexture = texture;
         }
         
         return true;
@@ -42,109 +48,52 @@ namespace nc
 
         m_scene->Update(dt);
         m_scene->ProcessGui();
-
-#pragma region PP
-
-        // set postprocess gui
-        ImGui::Begin("Post-Process");
-        ImGui::SliderFloat("Blend", &m_blend, 0, 1);
-        // INVERT
-        bool effect = m_params & INVERT_MASK;
-        if (ImGui::Checkbox("Invert", &effect))
-        {
-            (effect) ? m_params |= INVERT_MASK : m_params &= ~INVERT_MASK;
-        }
-        // GRAYSCALE
-        effect = m_params & GRAYSCALE_MASK;
-        if (ImGui::Checkbox("Grayscale", &effect))
-        {
-            (effect) ? m_params |= GRAYSCALE_MASK : m_params &= ~GRAYSCALE_MASK;
-        }
-        // COLOR TINT
-        effect = m_params & COLORTINT_MASK;
-        if (ImGui::Checkbox("Color Tint", &effect))
-        {
-            (effect) ? m_params |= COLORTINT_MASK : m_params &= ~COLORTINT_MASK;
-        }
-        if (effect)
-        {
-            ImGui::ColorEdit3("Tint", &m_colorTint[0]);
-        }
-        // GRAIN
-        effect = m_params & GRAIN_MASK;
-        if (ImGui::Checkbox("Grain Tint", &effect))
-        {
-            (effect) ? m_params |= GRAIN_MASK : m_params &= ~GRAIN_MASK;
-        }
-        // SCANLINE
-        effect = m_params & SCANLINE_MASK;
-        if (ImGui::Checkbox("Scanline", &effect))
-        {
-            (effect) ? m_params |= SCANLINE_MASK : m_params &= ~SCANLINE_MASK;
-        }
-        if (effect)
-        {
-            ImGui::DragFloat("Scanline Intensity", &scanlineIntensity, 0.01, 0, 1);
-            ImGui::DragFloat("Scanline Spacing", &scanlineSpacing, 0.1, 0, 100);
-        }
-        // BLOOM
-        effect = m_params & BLOOM_MASK;
-        if (ImGui::Checkbox("Bloom", &effect))
-        {
-            (effect) ? m_params |= BLOOM_MASK : m_params &= ~BLOOM_MASK;
-        }
-        // KERNEL
-        effect = m_params & KERNEL_MASK;
-        if (ImGui::Checkbox("Kernel", &effect))
-        {
-            (effect) ? m_params |= KERNEL_MASK : m_params &= ~KERNEL_MASK;
-        }
-
-        ImGui::End();
-
-        // Set postprocess shader
-        auto program = GET_RESOURCE(Program, "shaders/postprocess.prog");
-        if (program)
-        {
-            program->Use();
-            program->SetUniform("blend", m_blend);
-            program->SetUniform("params", m_params);
-            program->SetUniform("colorTint", m_colorTint);
-            program->SetUniform("time", m_time);
-            program->SetUniform("scanlineSpacing", scanlineSpacing);
-            program->SetUniform("scanlineIntensity", scanlineIntensity);
-            program->SetUniform("kernelOffset", kernelOffset);
-        }
         
-#pragma endregion
-
         ENGINE.GetSystem<Gui>()->EndFrame();
     }
 
     void World07::Draw(Renderer& renderer)
     {
         // *** PASS 1 ***
-        m_scene->GetActorByName("postprocess")->active = false;
-
-        auto framebuffer = GET_RESOURCE(Framebuffer, "fb");
+        //m_scene->GetActorByName("postprocess")->active = false;
+        auto framebuffer = GET_RESOURCE(Framebuffer, "depth_buffer");
         renderer.SetViewport(framebuffer->GetSize().x, framebuffer->GetSize().y);
         framebuffer->Bind();
 
-        renderer.BeginFrame({0, 0, 0});
-        m_scene->Draw(renderer);
+        renderer.ClearDepth();
+        auto program = GET_RESOURCE(Program, "shaders/shadow_depth.prog");
+        program->Use();
+
+        auto lights = m_scene->GetComponents<LightComponent>();
+        for (auto light : lights)
+        {
+            if (light->castShadow)
+            {
+                glm::mat4 shadowMatrix = light->GetShadowMatrix();
+                program->SetUniform("shadowVP", shadowMatrix);
+            }
+        }
+         
+        auto models = m_scene->GetComponents<ModelComponent>();
+        for (auto model : models)
+        {
+            if (model->castShadow)
+            {
+                glCullFace(GL_FRONT);
+                program->SetUniform("model", model->m_owner->transform.GetMatrix()); // commenting out stops crash
+                model->model->Draw();
+            }
+        }
 
         framebuffer->Unbind();
 
         // *** PASS 2 ***
-        m_scene->GetActorByName("postprocess")->active = true;
-
         renderer.ResetViewport();
         renderer.BeginFrame();
-        m_scene->GetActorByName("postprocess")->Draw(renderer);
-
+        m_scene->Draw(renderer);
 
         // post-render
-        ENGINE.GetSystem<Gui>()->Draw();
+        ENGINE.GetSystem<Gui>()->Draw(); // Crash happens on this line when debugging // commenting out stops crash
         renderer.EndFrame();
     }
 }
