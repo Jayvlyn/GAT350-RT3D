@@ -79,7 +79,7 @@ namespace nc
         {
             if (model->castShadow)
             {
-                glCullFace(GL_FRONT);
+                //glCullFace(GL_FRONT);
                 program->SetUniform("model", model->m_owner->transform.GetMatrix());
                 model->model->Draw();
             }

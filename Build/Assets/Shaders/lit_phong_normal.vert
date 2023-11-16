@@ -8,10 +8,13 @@ in layout(location = 3) vec3 vtangent;
 out layout(location = 0) vec3 oposition;
 out layout(location = 1) vec2 otexcoord;
 out layout(location = 2) mat3 otbn;
+out layout(location = 5) vec4 oshadowcoord;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
+uniform mat4 shadowVP;
 
 uniform struct Material
 {
@@ -39,6 +42,8 @@ void main()
     vec3 bitangent = cross(normal, tangent);
 
     otbn = mat3(tangent, bitangent, normal);
+
+    oshadowcoord = shadowVP * model * vec4(vposition, 1);
 
     mat4 mvp = projection * view * model;
     gl_Position = mvp * vec4(vposition, 1.0);
