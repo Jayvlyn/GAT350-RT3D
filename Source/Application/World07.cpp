@@ -80,7 +80,7 @@ namespace nc
             if (model->castShadow)
             {
                 glCullFace(GL_FRONT);
-                program->SetUniform("model", model->m_owner->transform.GetMatrix()); // commenting out stops crash
+                program->SetUniform("model", model->m_owner->transform.GetMatrix());
                 model->model->Draw();
             }
         }
@@ -93,7 +93,7 @@ namespace nc
         m_scene->Draw(renderer);
 
         // post-render
-        ENGINE.GetSystem<Gui>()->Draw(); // Crash happens on this line when debugging // commenting out stops crash
+        ENGINE.GetSystem<Gui>()->Draw();
         renderer.EndFrame();
     }
 }

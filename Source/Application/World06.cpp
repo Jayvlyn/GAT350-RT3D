@@ -12,7 +12,7 @@ namespace nc
     bool World06::Initialize()
     {
         m_scene = std::make_unique<Scene>();
-        m_scene->Load("scenes/scene_framebuffer.json");
+        m_scene->Load("scenes/scene_shadow.json");
         m_scene->Initialize();
 
         auto texture = std::make_shared<Texture>();
@@ -68,11 +68,11 @@ namespace nc
         }
         if (effect)
         {
-
+            ImGui::ColorEdit3("Tint", &m_colorTint[0]);
         }
         // GRAIN
         effect = m_params & GRAIN_MASK;
-        if (ImGui::Checkbox("Grain Tint", &effect))
+        if (ImGui::Checkbox("Grain", &effect))
         {
             (effect) ? m_params |= GRAIN_MASK : m_params &= ~GRAIN_MASK;
         }
@@ -84,13 +84,8 @@ namespace nc
         }
         if (effect)
         {
-
-        }
-        // BLOOM
-        effect = m_params & BLOOM_MASK;
-        if (ImGui::Checkbox("Bloom", &effect))
-        {
-            (effect) ? m_params |= BLOOM_MASK : m_params &= ~BLOOM_MASK;
+            ImGui::DragFloat("Intensity", &scanlineIntensity, 0.01, 0, 1);
+            ImGui::DragFloat("Spacing", &scanlineSpacing, 0.1, 0, 100);
         }
         // KERNEL
         effect = m_params & KERNEL_MASK;
@@ -108,6 +103,11 @@ namespace nc
             program->Use();
             program->SetUniform("blend", m_blend);
             program->SetUniform("params", m_params);
+            program->SetUniform("colorTint", m_colorTint);
+            program->SetUniform("time", m_time);
+            program->SetUniform("scanlineSpacing", scanlineSpacing);
+            program->SetUniform("scanlineIntensity", scanlineIntensity);
+            program->SetUniform("kernelOffset", kernelOffset);
         }
         
         ENGINE.GetSystem<Gui>()->EndFrame();
@@ -122,7 +122,7 @@ namespace nc
         renderer.SetViewport(framebuffer->GetSize().x, framebuffer->GetSize().y);
         framebuffer->Bind();
 
-        renderer.BeginFrame({0, 0, 1});
+        renderer.BeginFrame({0, 0, 0});
         m_scene->Draw(renderer);
 
         framebuffer->Unbind();

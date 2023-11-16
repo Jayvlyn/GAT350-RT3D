@@ -56,6 +56,20 @@
 		},
 		{
 			"type": "Actor",
+			"name": "postprocess",
+			"persistent": true,
+			"active": false,
+			"prototype": false,
+			"components": [
+				{
+					"type": "ModelComponent",
+					"modelName": "models/quad.obj",
+					"materialName": "materials/postprocess.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
 			"name": "light",
 			"persistent": true,
 			"active": true,

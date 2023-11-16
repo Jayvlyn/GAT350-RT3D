@@ -15,8 +15,7 @@ namespace nc
 		const uint32_t COLORTINT_MASK = (1 << 2);
 		const uint32_t GRAIN_MASK	  = (1 << 3);
 		const uint32_t SCANLINE_MASK  = (1 << 4);
-		const uint32_t BLOOM_MASK	  = (1 << 5);
-		const uint32_t KERNEL_MASK	  = (1 << 6);
+		const uint32_t KERNEL_MASK	  = (1 << 5);
 		//const uint32_t _MASK = (1 << 3);
 	
 	public:
@@ -33,6 +32,11 @@ namespace nc
 		uint32_t m_params{ 0 };
 
 		float m_blend = 1;
+
+		glm::vec3 m_colorTint{ 1, 0, 0 };
+		float scanlineSpacing{ 1 };
+		float scanlineIntensity{ 1 };
+		float kernelOffset = 300;
 
 		glm::vec3 m_ambientColor{ 0.2f };
 	};
