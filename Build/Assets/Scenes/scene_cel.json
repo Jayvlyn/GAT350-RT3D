@@ -1,0 +1,142 @@
+{
+	"actors": [
+		{
+			"type": "Actor",
+			"name": "ElvenHouse",
+			"persistent": true,
+			"active": true,
+			"transform": {
+				"position": [ -8, -5, -5 ],
+				"scale": [ 0.5, 0.5, 0.5 ],
+				"rotation": [ 0, 0, 0 ]
+			},
+			"components": [
+				{
+					"type": "ModelComponent",
+					"modelName": "fantasy/obj/SF_Bld_Elven_House_01.obj",
+					"materialName": "fantasy/fantasy.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "GobHut",
+			"persistent": true,
+			"active": true,
+			"transform": {
+				"position": [ 1, 0, -5 ],
+				"scale": [ 1, 1, 1 ],
+				"rotation": [ 0, 0, 0 ]
+			},
+			"components": [
+				{
+					"type": "ModelComponent",
+					"modelName": "fantasy/obj/SF_Bld_Goblin_Hut_03.obj",
+					"materialName": "fantasy/fantasy.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Ogre",
+			"persistent": true,
+			"active": true,
+			"transform": {
+				"position": [ -1.8, -1.9, -2.3 ],
+				"scale": [ 1, 1, 1 ],
+				"rotation": [ 0, 0, 0 ]
+			},
+			"components": [
+				{
+					"type": "ModelComponent",
+					"modelName": "models/ogre.obj",
+					"materialName": "materials/ogre.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Ground",
+			"persistent": true,
+			"active": true,
+			"transform": {
+				"position": [ -20, -3, 0 ],
+				"scale": [ 10, 1, 10 ],
+				"rotation": [ 0, 0, 0 ]
+			},
+			"components": [
+				{
+					"type": "ModelComponent",
+					"modelName": "fantasy/obj/SF_Env_Tile_Grass_01.obj",
+					"materialName": "fantasy/fantasy.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "postprocess",
+			"persistent": true,
+			"active": false,
+			"prototype": false,
+			"components": [
+				{
+					"type": "ModelComponent",
+					"modelName": "models/quad.obj",
+					"materialName": "materials/postprocess.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "light",
+			"persistent": true,
+			"active": true,
+			"prototype": false,
+			"transform": {
+				"position": [ 0, 3, 0 ],
+				"rotation": [ 60, 30, 0 ],
+				"scale": [ 0.1, 0.1, 0.1 ]
+			},
+			"components": [
+				{
+					"type": "LightComponent",
+					"lightType": "directional",
+					"color": [ 1, 1, 1 ],
+					"intensity": 1,
+					"range": 200,
+					"castShadow": true
+				},
+				{
+					"type": "ModelComponent",
+					"modelName": "models/quad.obj",
+					"materialName": "materials/ui_light.mtrl"
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "camera1",
+			"persistent": true,
+			"active": true,
+			"prototype": false,
+			"transform": {
+				"position": [ 0, 0, 3 ],
+				"scale": [ 1, 1, 1 ],
+				"rotation": [ 0, 180, 0 ]
+			},
+			"components": [
+				{
+					"type": "CameraComponent",
+					"fov": 90,
+					"near": 0.1,
+					"far": 200
+				},
+				{
+					"type": "CameraController",
+					"speed": 1,
+					"sensitivity": 1
+				}
+			]
+		}
+	]
+}
