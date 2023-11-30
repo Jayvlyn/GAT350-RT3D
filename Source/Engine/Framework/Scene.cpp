@@ -48,8 +48,9 @@ namespace nc
 			for (auto light : lights)
 			{
 				std::string name = "lights[" + std::to_string(index++) + "]";
+				glm::mat4 view = (camera) ? camera->view : glm::mat4();
 
-				light->SetProgram(program, name);
+				light->SetProgram(program, name, view);
 			}
 			program->SetUniform("numLights", index);
 			program->SetUniform("ambientLight", ambientColor);
