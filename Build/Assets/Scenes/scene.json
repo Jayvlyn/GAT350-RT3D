@@ -25,7 +25,7 @@
 			"persistent": true,
 			"active": false,
 			"transform": {
-				"position": [ -2, 0, 0 ],
+				"position": [ 0, 10, -40 ],
 				"scale": [ 1, 1, 1 ],
 				"rotation": [ 0, 0, 0 ]
 			},

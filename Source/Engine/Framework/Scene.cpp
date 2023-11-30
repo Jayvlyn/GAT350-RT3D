@@ -145,5 +145,7 @@ namespace nc
 		ImVec4 color = (fps < 30) ? ImVec4{ 1, 0, 0, 1 } : ImVec4{ 1, 1, 1, 1, };
 		ImGui::TextColored(color, "%.2f FPS (%.2f)", fps, ms);
 		ImGui::ColorEdit3("Ambient", glm::value_ptr(ambientColor));
+
+
 	}
 }

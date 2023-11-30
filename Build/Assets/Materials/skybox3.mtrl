@@ -1,5 +1,5 @@
 {
-  "program": "shaders/reflection.prog",
+  "program": "shaders/skybox.prog",
   "cubemap": "galaxy_cubemap",
   "cubemaps": [
     "textures/galaxy_cubemap/space_ft.png",
