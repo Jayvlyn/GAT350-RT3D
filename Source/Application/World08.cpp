@@ -10,8 +10,11 @@ namespace nc
     bool World08::Initialize()
     {
         m_scene = std::make_unique<Scene>();
+        m_scene->Load("scenes/scene_editor.json");
         m_scene->Load("scenes/scene_shadow.json");
         m_scene->Initialize();
+
+        m_editor = std::make_unique<Editor>();
 
         auto texture = std::make_shared<Texture>();
         texture->CreateDepthTexture(1024, 1024);
@@ -47,7 +50,8 @@ namespace nc
         ENGINE.GetSystem<Gui>()->BeginFrame();
 
         m_scene->Update(dt);
-        m_scene->ProcessGui();
+        m_editor->Update();
+        m_editor->ProcessGui(m_scene.get());
 
         // CEL-SHADING GUI
         auto program = GET_RESOURCE(Program, "shaders/cel.prog");

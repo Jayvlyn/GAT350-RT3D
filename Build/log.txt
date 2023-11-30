@@ -6,10 +6,14 @@ INFO: Factory.h(74) Class registered: CameraController
 INFO: Factory.h(74) Class registered: CameraComponent
 INFO: Factory.h(74) Class registered: Actor
 INFO: Main.cpp(19) Initialize Engine...
+INFO: Factory.h(82) Prototype Class registered: Camera
+INFO: Factory.h(82) Prototype Class registered: Light
+INFO: Factory.h(82) Prototype Class registered: Sphere
+INFO: Factory.h(82) Prototype Class registered: Cube
 WARNING: Texture.cpp(74) Could not create surface: textures/ogre_emissive.bmp
-WARNING: ResourceManager.h(71) Could not create resource: textures/ogre_emissive.bmp
+WARNING: ResourceManager.h(72) Could not create resource: textures/ogre_emissive.bmp
 WARNING: Texture.cpp(74) Could not create surface: textures/ogre_normal.bmp
-WARNING: ResourceManager.h(71) Could not create resource: textures/ogre_normal.bmp
+WARNING: ResourceManager.h(72) Could not create resource: textures/ogre_normal.bmp
 WARNING: Program.cpp(165) Could not find uniform location: view
 WARNING: Program.cpp(165) Could not find uniform location: projection
 WARNING: Program.cpp(165) Could not find uniform location: lights[0].type

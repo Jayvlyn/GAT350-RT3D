@@ -5,6 +5,7 @@
 #include "World.h"
 #include "Scene.h"
 #include "Engine.h"
+#include "Editor.h"
 
 #include "Components/Component.h"
 #include "Components/RenderComponent.h"
