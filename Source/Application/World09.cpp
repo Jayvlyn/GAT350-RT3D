@@ -19,7 +19,7 @@ namespace nc
         m_editor = std::make_unique<Editor>();
 
         auto texture = std::make_shared<Texture>();
-        texture->CreateDepthTexture(1024, 1024);
+        texture->CreateDepthTexture(2048, 2048);
         ADD_RESOURCE("depth_texture", texture);
 
         auto framebuffer = std::make_shared<Framebuffer>();
@@ -50,7 +50,7 @@ namespace nc
             std::string classBase = baseName + std::to_string(num);
             auto actor = CREATE_CLASS_BASE(Actor, classBase);
             actor->name = su->CreateUnique(classBase);
-            actor->transform.position = glm::vec3{ -15, -5, i };
+            actor->transform.position = glm::vec3{ randomf(-14,-16), -5, i};
             actor->Initialize();
             m_scene->Add(std::move(actor));
         }
@@ -62,9 +62,52 @@ namespace nc
             std::string classBase = baseName + std::to_string(num);
             auto actor = CREATE_CLASS_BASE(Actor, classBase);
             actor->name = su->CreateUnique(classBase);
-            actor->transform.position = glm::vec3{ 15, -5, i };
-            //actor->transform.rotation = glm::quat{ glm::vec3{ 0, 9, 0 } };
+            actor->transform.position = glm::vec3{ randomf(14,16), -5, i };
             actor->transform.rotation = glm::quat{ glm::vec3{ 0, DegreesToRadians(-90), 0}};
+            actor->Initialize();
+            m_scene->Add(std::move(actor));
+        }
+
+        // Wall left row
+        for (int i = -70; i < 50; i += 10)
+        {
+            auto actor = CREATE_CLASS_BASE(Actor, "ElvenWall");
+            actor->name = su->CreateUnique("ElvenWall");
+            actor->transform.position = glm::vec3{ -30, -5, i };
+            actor->transform.rotation = glm::quat{ glm::vec3{ 0, DegreesToRadians(-90), 0} };
+            actor->Initialize();
+            m_scene->Add(std::move(actor));
+        }
+
+        // Wall right row
+        for (int i = -70; i < 50; i += 10)
+        {
+            auto actor = CREATE_CLASS_BASE(Actor, "ElvenWall");
+            actor->name = su->CreateUnique("ElvenWall");
+            actor->transform.position = glm::vec3{ 30, -5, i };
+            actor->transform.rotation = glm::quat{ glm::vec3{ 0, DegreesToRadians(-90), 0} };
+            actor->Initialize();
+            m_scene->Add(std::move(actor));
+        }
+
+        // Wall back row
+        for (int i = -40; i < 40; i += 10)
+        {
+            auto actor = CREATE_CLASS_BASE(Actor, "ElvenWall");
+            actor->name = su->CreateUnique("ElvenWall");
+            actor->transform.position = glm::vec3{ i, -5, -70 };
+            actor->transform.rotation = glm::quat{ glm::vec3{ 0, 0, 0} };
+            actor->Initialize();
+            m_scene->Add(std::move(actor));
+        }
+
+        // Wall front row
+        for (int i = -40; i < 40; i += 10)
+        {
+            auto actor = CREATE_CLASS_BASE(Actor, "ElvenWall");
+            actor->name = su->CreateUnique("ElvenWall");
+            actor->transform.position = glm::vec3{ i, -5, 50 };
+            actor->transform.rotation = glm::quat{ glm::vec3{ 0, 0, 0} };
             actor->Initialize();
             m_scene->Add(std::move(actor));
         }
@@ -87,11 +130,25 @@ namespace nc
             m_scene->Add(std::move(actor));
         }
 
+        // Elven Tower
+        {
+            auto actor = CREATE_CLASS_BASE(Actor, "ElvenTower");
+            actor->name = su->CreateUnique("ElvenTower");
+            actor->transform.position = glm::vec3{ -12, -5, 48.2 };
+            actor->Initialize();
+            m_scene->Add(std::move(actor));
+        }
+        {
+            auto actor = CREATE_CLASS_BASE(Actor, "ElvenTower");
+            actor->name = su->CreateUnique("ElvenTower");
+            actor->transform.position = glm::vec3{ 12, -5, 48.2 };
+            actor->Initialize();
+            m_scene->Add(std::move(actor));
+        }
+
 
         
 #pragma endregion
-
-        
         return true;
     }
 

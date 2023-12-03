@@ -18,6 +18,8 @@ INFO: Factory.h(82) Prototype Class registered: ElvenHouse5
 INFO: Factory.h(82) Prototype Class registered: ElvenHouse6
 INFO: Factory.h(82) Prototype Class registered: ElvenHouse7
 INFO: Factory.h(82) Prototype Class registered: ElvenGate
+INFO: Factory.h(82) Prototype Class registered: ElvenTower
+INFO: Factory.h(82) Prototype Class registered: ElvenWall
 INFO: Factory.h(82) Prototype Class registered: GobHut
 WARNING: Texture.cpp(74) Could not create surface: textures/ogre_emissive.bmp
 WARNING: ResourceManager.h(72) Could not create resource: textures/ogre_emissive.bmp
